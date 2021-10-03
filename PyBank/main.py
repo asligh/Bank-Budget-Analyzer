@@ -1,5 +1,5 @@
 from abc import ABCMeta
-from decimal import Decimal
+from decimal import Decimal, DivisionByZero
 import os
 import csv
 
@@ -155,14 +155,54 @@ class Program():
             self.set_total_months(total_months)
             self.set_total_profit_loss(total_profit_loss)
             self.set_average_change(sum(monthly_perf_records)/len(monthly_perf_records))
-            print("Hi")
+
             print(f"greatest increase is {list(greatest_inc.keys())[0]} with a value of {greatest_inc[list(greatest_inc.keys())[0]]}")
-            print(f"greatest decrease is {list(greatest_dec.keys())[0]} with a value of {greatest_dec[list(greatest_dec.keys())[0]]}")           
-            
+            print(f"greatest decrease is {list(greatest_dec.keys())[0]} with a value of {greatest_dec[list(greatest_dec.keys())[0]]}")  
+
+    def write_data(self):
+        None
+
+    def get_print_output(self):
+
+        greatest_inc = self.get_greatest_profit_increase()
+        greatest_dec = self.get_greatest_profit_decrease()
+
+        print_str = "Financial Analysis \n" \
+        + "---------------------------- \n" \
+        + f"Total Months: {self.get_total_months()} \n" \
+        + f"Total: ${self.get_total_profit_loss()} \n"  \
+        + f"Average Change: ${round(self.get_avg_change(),2)} \n" \
+        + f"Greatest Increase in Profits: {list(greatest_inc.keys())[0]} (${greatest_inc[list(greatest_inc.keys())[0]]}) \n" \
+        + f"Greatest Decrease in Profits: {list(greatest_dec.keys())[0]} (${greatest_dec[list(greatest_dec.keys())[0]]})" 
+
+        return print_str
+
+    def write_data_to_terminal(self):
+        print(self.get_print_output())
+
+    def write_data_to_file(self):
+        None
+
 ##End Class
 
 def run_program():
-    program = Program()
-    program.read_data()
 
-run_program()
+    status = 0
+    program = Program()
+    
+    try:
+        program.read_data()
+        program.write_data_to_terminal()
+        program.write_data_to_file()
+
+    except ZeroDivisionError as dbz:
+        print(dbz.__str__)
+        status = -1  
+    
+    except IOError as e:
+        print(e.__str__)
+        status = -1
+
+    return status
+
+result = run_program()

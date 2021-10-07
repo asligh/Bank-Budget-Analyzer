@@ -97,7 +97,7 @@ class Program():
 
             records = csv.reader(in_file, delimiter=',') 
 
-            next(records) # move cursor past header row
+            header_row = next(records) # store header row for future use
 
             for record in records:
 
@@ -141,21 +141,24 @@ class Program():
         election_results = self.get_election_results()
 
         print_str = f"Election Results{self.get_new_line()}" \
-        + f"{self.get_line_separator()}" \
+        + f"{self.get_line_separator(True)}" \
         + f"{self.get_total_votes_for_display()}" \
-        + f"{self.get_line_separator()}"                                             
+        + f"{self.get_line_separator(True)}"                                             
 
         for key in election_results.keys():
             print_str += self.get_analysis_by_candidate(key)
 
-        print_str += f"{self.get_line_separator()}" 
+        print_str += f"{self.get_line_separator(True)}" 
         print_str += f"{self.get_election_winner_for_display()}"
-        print_str += f"{self.get_line_separator()}" 
+        print_str += f"{self.get_line_separator(False)}" 
 
         return print_str
             
-    def get_line_separator(self) -> str:
-        return f"-------------------------{self.get_new_line()}"
+    def get_line_separator(self,include_new_line) -> str:
+        if include_new_line:
+            return f"-------------------------{self.get_new_line()}"
+        else:
+            return f"-------------------------"
 
     def get_new_line(self) -> str:
         return "\n"
@@ -165,6 +168,12 @@ class Program():
     
     def write_data_to_terminal(self):
         print(self.get_data_analysis())
+
+    def write_data_to_file(self):
+        out_file_path  = self.get_out_file_path()
+
+        with open(out_file_path, "w") as out_file:
+            out_file.write(self.get_data_analysis())
 
     #End Class
 
@@ -178,7 +187,7 @@ def run_program():
         program.get_total_vote_count()
         program.get_election_winner()
         program.write_data_to_terminal()
-        #program.write_data_to_file()
+        program.write_data_to_file()
 
     except IOError as e:
         print(e.__str__())

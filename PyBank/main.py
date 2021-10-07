@@ -124,7 +124,7 @@ class Program():
             greatest_inc = self.get_greatest_profit_increase()
             greatest_dec = self.get_greatest_profit_decrease()
 
-            next(records) # move cursor past header row
+            header_row = next(records) # store header row for future use
 
             for record in records:
                 key    = record[self.get_month_year_idx()]

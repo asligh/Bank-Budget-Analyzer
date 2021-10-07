@@ -1,5 +1,3 @@
-from abc import ABCMeta
-from decimal import Decimal, DivisionByZero
 import os
 import csv
 
@@ -13,8 +11,12 @@ class Program():
 
     __MONTH_YEAR_IDX       = 0
     __AMT_IDX              = 1
-    __RESOURCE_FOLDER_NAME = 'Resources'
-    __FILE_NAME            = 'budget_data.csv'
+    __IN_FILE_NAME         = "budget_data.csv"
+    __OUT_FILE_NAME        = "budget_data_analysis"
+    __OUT_FILE_EXTENSION   = ".txt"   
+    __IN_FOLDER_NAME       = "Resources"
+    __OUT_FOLDER_NAME      = "analysis"   
+
     __total_months         = None
     __total_profit_loss    = None
     __average_change       = None     
@@ -29,16 +31,31 @@ class Program():
     #                 # 
     ###################
 
-    def get_resource_folder_name(self):
-       return self.__RESOURCE_FOLDER_NAME    
+    def get_in_file_name(self):
+        return self.__IN_FILE_NAME
 
-    def get_file_name(self):
-        return self.__FILE_NAME
+    def get_out_file_name(self):
+        return self.__OUT_FILE_NAME    
+        
+    def get_in_folder_name(self):
+        return self.__IN_FOLDER_NAME  
 
-    def get_resource_path(self):
-        resource_folder_name = self.get_resource_folder_name()
-        file_name = self.get_file_name()
-        return os.path.join(resource_folder_name, file_name).replace("\\", "/")
+    def get_out_folder_name(self):
+        return self.__OUT_FOLDER_NAME   
+
+    def get_out_file_extension(self):
+        return self.__OUT_FILE_EXTENSION     
+
+    def get_in_file_path(self):
+        in_folder_name = self.get_in_folder_name()
+        in_file_name   = self.get_in_file_name()
+        return os.path.join(in_folder_name, in_file_name).replace("\\", "/")
+
+    def get_out_file_path(self):
+        out_folder_name    = self.get_out_folder_name()
+        out_file_name      = self.get_out_file_name()
+        out_file_extension = self.get_out_file_extension()
+        return os.path.join(out_folder_name, out_file_name + out_file_extension).replace("\\", "/")      
 
     def get_total_months(self):
         return self.__total_months
@@ -59,14 +76,13 @@ class Program():
         return self.__greatest_profit_increase
 
     def get_greatest_profit_decrease(self):
-        return self.__greatest_profit_decrease 
+        return self.__greatest_profit_decrease
     
     def get_avg_change(self):
         return self.__average_change
 
     def get_monthly_perf_records(self):
         return self.__monthly_perf_records
-
 
     ###################
     #                 # 
@@ -99,16 +115,16 @@ class Program():
   
     def read_data(self):
         
-        fin_data          = self.get_fin_data()
-        resource_path     = self.get_resource_path()
+        data              = self.get_fin_data()
+        in_file_path      = self.get_in_file_path()
         total_months      = 0
         total_profit_loss = 0
         key               = None
         value             = None
 
-        with open(resource_path) as csvfile:
+        with open(in_file_path, 'r') as in_file:
 
-            records = csv.reader(csvfile, delimiter=',')  ## CSV reader specifies delimiter and variable that holds contents
+            records = csv.reader(in_file, delimiter=',')  ## CSV reader specifies delimiter and variable that holds contents
 
             monthly_perf_records = self.get_monthly_perf_records()
 
@@ -119,15 +135,15 @@ class Program():
 
             for record in records:
                 key    = record[self.get_month_year_idx()]
-                value  = Decimal(record[self.get_amt_idx()])
+                value  = float(record[self.get_amt_idx()])
 
-                fin_data.update({key:value})
+                data.update({key:value})
                 total_months +=1
                 total_profit_loss += value
 
-                if len(fin_data.keys()) > 1:
+                if len(data.keys()) > 1:
 
-                    one_month_perf_change = value - Decimal(fin_data[ list(fin_data.keys())[-2]])   
+                    one_month_perf_change = value - data[ list(data.keys())[-2]]  
 
                     if one_month_perf_change >= 0:
 
@@ -136,7 +152,7 @@ class Program():
                         else:
                             previous_key = list(greatest_inc.keys())[0]
 
-                            if Decimal(greatest_inc[previous_key]) < one_month_perf_change:
+                            if greatest_inc[previous_key] < one_month_perf_change:
                                 greatest_inc.clear()
                                 greatest_inc.update({key:one_month_perf_change})
 
@@ -146,7 +162,7 @@ class Program():
                         else:
                             previous_key = list(greatest_dec.keys())[0]
 
-                            if Decimal(greatest_dec[previous_key]) > one_month_perf_change:
+                            if greatest_dec[previous_key] > one_month_perf_change:
                                 greatest_dec.clear()
                                 greatest_dec.update({key:one_month_perf_change})
 
@@ -156,13 +172,7 @@ class Program():
             self.set_total_profit_loss(total_profit_loss)
             self.set_average_change(sum(monthly_perf_records)/len(monthly_perf_records))
 
-            print(f"greatest increase is {list(greatest_inc.keys())[0]} with a value of {greatest_inc[list(greatest_inc.keys())[0]]}")
-            print(f"greatest decrease is {list(greatest_dec.keys())[0]} with a value of {greatest_dec[list(greatest_dec.keys())[0]]}")  
-
-    def write_data(self):
-        None
-
-    def get_print_output(self):
+    def get_data_analysis(self):
 
         greatest_inc = self.get_greatest_profit_increase()
         greatest_dec = self.get_greatest_profit_decrease()
@@ -170,18 +180,21 @@ class Program():
         print_str = "Financial Analysis \n" \
         + "---------------------------- \n" \
         + f"Total Months: {self.get_total_months()} \n" \
-        + f"Total: ${self.get_total_profit_loss()} \n"  \
+        + f"Total: ${int(self.get_total_profit_loss())} \n"  \
         + f"Average Change: ${round(self.get_avg_change(),2)} \n" \
-        + f"Greatest Increase in Profits: {list(greatest_inc.keys())[0]} (${greatest_inc[list(greatest_inc.keys())[0]]}) \n" \
-        + f"Greatest Decrease in Profits: {list(greatest_dec.keys())[0]} (${greatest_dec[list(greatest_dec.keys())[0]]})" 
+        + f"Greatest Increase in Profits: {list(greatest_inc.keys())[0]} (${int(greatest_inc[list(greatest_inc.keys())[0]])}) \n" \
+        + f"Greatest Decrease in Profits: {list(greatest_dec.keys())[0]} (${int(greatest_dec[list(greatest_dec.keys())[0]])})" 
 
         return print_str
 
     def write_data_to_terminal(self):
-        print(self.get_print_output())
+        print(self.get_data_analysis())
 
     def write_data_to_file(self):
-        None
+        out_file_path  = self.get_out_file_path()
+
+        with open(out_file_path, "w") as out_file:
+            out_file.write(self.get_data_analysis())
 
 ##End Class
 
@@ -195,12 +208,8 @@ def run_program():
         program.write_data_to_terminal()
         program.write_data_to_file()
 
-    except ZeroDivisionError as dbz:
-        print(dbz.__str__)
-        status = -1  
-    
     except IOError as e:
-        print(e.__str__)
+        print(e.__str__())
         status = -1
 
     return status

@@ -1,6 +1,7 @@
 import os
 import csv
 
+#Instance-based solution
 class Program():
 
     ###################
@@ -20,8 +21,8 @@ class Program():
     __total_months         = None
     __total_profit_loss    = None
     __average_change       = None     
-    __monthly_perf_records = []
-    __fin_data             = {}    
+    __perf_records         = []
+    __data                 = {}    
     __greatest_profit_increase    = {}
     __greatest_profit_decrease    = {}   
 
@@ -60,8 +61,8 @@ class Program():
     def get_total_months(self):
         return self.__total_months
 
-    def get_fin_data(self):
-        return self.__fin_data
+    def get_data(self):
+        return self.__data
 
     def get_total_profit_loss(self):
         return self.__total_profit_loss
@@ -81,8 +82,8 @@ class Program():
     def get_avg_change(self):
         return self.__average_change
 
-    def get_monthly_perf_records(self):
-        return self.__monthly_perf_records
+    def get_perf_records(self):
+        return self.__perf_records
 
     ###################
     #                 # 
@@ -105,17 +106,9 @@ class Program():
     def set_greatest_prof_inc(self,greatest_profit_decrease):
         self.__greatest_profit_decrease = greatest_profit_decrease 
 
-    ###################
-    #                 # 
-    #   CONSTRUCTOR   #
-    #                 # 
-    ###################
-    def __init__(self):
-        None
-  
     def read_data(self):
         
-        data              = self.get_fin_data()
+        data              = self.get_data()
         in_file_path      = self.get_in_file_path()
         total_months      = 0
         total_profit_loss = 0
@@ -124,9 +117,9 @@ class Program():
 
         with open(in_file_path, 'r') as in_file:
 
-            records = csv.reader(in_file, delimiter=',')  ## CSV reader specifies delimiter and variable that holds contents
+            records = csv.reader(in_file, delimiter=',')
 
-            monthly_perf_records = self.get_monthly_perf_records()
+            monthly_perf_records = self.get_perf_records()
 
             greatest_inc = self.get_greatest_profit_increase()
             greatest_dec = self.get_greatest_profit_decrease()

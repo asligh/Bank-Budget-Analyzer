@@ -5,7 +5,7 @@ import csv
 
 #Date: 10/08/2021
 
-#Purpose: Processes election ballot records and prints election totals, percentages by encumbant, and winner.
+#Purpose: Processes election ballot records and prints election totals, percentages by incumbent, and winner.
 
 #Dependencies: Election ballot flat input file
 
@@ -102,7 +102,7 @@ class Program():
     def set_election_results(self,election_results):
         self.__election_results = election_results
 
-    #STores total vote count
+    #Stores total vote count
     def set_total_vote_count(self,total_vote_count):
         self.__total_vote_count = total_vote_count
 

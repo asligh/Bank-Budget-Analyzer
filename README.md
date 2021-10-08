@@ -1,7 +1,7 @@
 # python-challenge
 
-#Author: Ashley Sligh
-#Date: 10/8/2021
+Author: Ashley Sligh
+Date: 10/8/2021
 
 The purpose of the PyBank application is to analyze financial data and produce statistical results for decision making by the end user.
 

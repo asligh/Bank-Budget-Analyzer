@@ -1,4 +1,6 @@
-# Bank Transaction Analyzer
+![Kickstart](Images/Franklin.png)
+
+# Bank Budgetary Analyzer
 
 ## Sole Author
 
@@ -10,7 +12,7 @@ Python, VS Code, CSV
 
 ## Purpose
 
-The purpose of the PyBank application is to analyze financial data and produce statistical results to both the terminal at to text file using a scaleable, object-oriented approach.
+The purpose of the PyBank application is to analyze monthly budgetary financial data and produce statistical results to both the terminal at to text file using a scaleable, object-oriented approach.
 
 ## Instructions
 
@@ -24,9 +26,3 @@ To run the PyBank program perform the following steps:
 ## Illustrative Data Sample
 
 ![Kickstart](Images/DataSample.png)
-
-## Conclusion 1
-
-Author: Ashley Sligh
-
-Date: 10/8/2021

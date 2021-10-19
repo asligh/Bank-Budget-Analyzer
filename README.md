@@ -1,10 +1,10 @@
 # Bank Transaction Analyzer
 
-# Sole Author
+## Sole Author
 
 Ashley Sligh
 
-# Programming Language/Tools Applied: 
+## Programming Language/Tools Applied: 
 
 Python, VS Code, CSV
 

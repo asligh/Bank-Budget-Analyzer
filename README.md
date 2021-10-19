@@ -23,6 +23,10 @@ To run the PyBank program perform the following steps:
 4) Click the "Run" button to launch the program
 5) Results written to the analysis/budget_data_analysis.txt path
 
-## Illustrative Data Sample
+## Illustrative Input Data Sample
 
-![Kickstart](Images/DataSample.png)
+![Kickstart](Images/DataInputSample.png)
+
+## Illustrative Data Output
+
+![Kickstart](Images/analysisOutput.png)

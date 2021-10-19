@@ -6,7 +6,7 @@
 
 Ashley Sligh
 
-## Programming Language/Tools Applied: 
+## Programming Language/Tools Applied
 
 Python, VS Code, CSV
 

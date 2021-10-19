@@ -2,7 +2,7 @@
 
 # Bank Budgetary Analyzer
 
-## Sole Author
+## Author
 
 Ashley Sligh
 

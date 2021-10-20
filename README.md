@@ -1,6 +1,6 @@
 ![Kickstart](Images/Franklin.png)
 
-# Bank Budgetary Analyzer
+# Bank Budget Analyzer
 
 ## Author
 

@@ -12,7 +12,7 @@ Python, VS Code, CSV
 
 ## Purpose
 
-The purpose of the PyBank application is to analyze monthly budgetary financial data and produce statistical results to both the terminal at to text file using a scaleable, object-oriented approach.
+The purpose of the PyBank application is to analyze monthly budgetary financial data and produce statistical results to both the terminal at to text file using a scalable, object-oriented approach.
 
 ## Instructions
 
